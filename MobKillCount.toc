@@ -7,5 +7,15 @@
 locales\enUS.lua
 locales\ruRU.lua
 
+locales\deDE.lua
+locales\esES.lua
+locales\esMX.lua
+locales\frFR.lua
+locales\itIT.lua
+locales\koKR.lua
+locales\ptBR.lua
+locales\zhCN.lua
+locales\zhTW.lua
+
 MobKillCount.xml
 MobKillCount.lua
