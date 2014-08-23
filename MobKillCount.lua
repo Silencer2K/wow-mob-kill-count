@@ -57,8 +57,8 @@ function addon:UpdateMobKillCount(id)
 	self:UpdateMobKillCountInDb(id, self.db.char)
 	self:UpdateMobKillCountInDb(id, self.db.global)
 
-	self:UpdateMobKillCountInDb('__total__', self.db.char)
-	self:UpdateMobKillCountInDb('__total__', self.db.global)
+	self:UpdateMobKillCountInDb(0, self.db.char)
+	self:UpdateMobKillCountInDb(0, self.db.global)
 end
 
 function addon:UnitInfoFromGuid(guid)
