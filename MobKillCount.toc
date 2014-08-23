@@ -1,0 +1,10 @@
+## Interface: 50400
+## Title: Mob Kill Count
+## Author: silencer2k@gmail.com
+## SavedVariables: MobKillCountDB
+
+locales\enUS.lua
+locales\ruRU.lua
+
+MobKillCount.xml
+MobKillCount.lua
