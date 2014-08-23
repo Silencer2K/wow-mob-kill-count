@@ -2,6 +2,7 @@
 ## Title: Mob Kill Count
 ## Author: silencer2k@gmail.com
 ## SavedVariables: MobKillCountDB
+## Version: 0.1.1-beta
 
 locales\enUS.lua
 locales\ruRU.lua
