@@ -9,7 +9,7 @@ local COLOR_SILVER = 'ffc7c7cf'
 function addon:OnInitialize()
 	self.db = LibStub('AceDB-3.0'):New('MobKillCountDB')
 
-	self:RegisterEvent('COMBAT_LOG_EVENT', function(...)
+	self:RegisterEvent('COMBAT_LOG_EVENT_UNFILTERED', function(...)
 		addon:OnCombatEvent(...)
 	end)
 
@@ -95,9 +95,14 @@ end
 
 function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
                              sourceGuid, sourceName, sourceFlags, sourceFlags2,
-                             destGuid, destName, destFlags, destFlags2
+                             destGuid, destName, destFlags, destFlags2, ...
 )
 	if logEvent == 'PARTY_KILL' then
+		-- print(event, timeStamp, logEvent, hideCaster,
+		--       sourceGuid, sourceName, sourceFlags, sourceFlags2,
+		--       destGuid, destName, destFlags, destFlags2, ...
+		-- )
+
 		local type, id = self:UnitInfoFromGuid(destGuid)
 		if type == 3 then
 			self:UpdateMobKillCount(id)
