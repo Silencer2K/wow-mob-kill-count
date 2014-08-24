@@ -1,4 +1,6 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("MobKillCount", "deDE", false)
+local addonName = ...
+
+local L = LibStub("AceLocale-3.0"):NewLocale(addonName, "deDE", false)
 if not L then return end
 
 --@localization(locale="deDE", format="lua_additive_table")@
