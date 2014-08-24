@@ -116,20 +116,25 @@ function addon:OnGameTooltipSetUnit(tooltip)
 		local type, id = self:UnitInfoFromGuid(guid)
 
 		if type == 3 then
-			tooltip:AddDoubleLine(
-				string.format(
-					L.tooltip_text,
-					COLOR_SILVER,
-					self:GetPlayerName(),
-					COLOR_SILVER
-				),
-				string.format(
-					'|c%s%s / %s|r',
-					COLOR_SILVER,
-					self:GetMobKillCountFromDb(id, self.db.char),
-					self:GetMobKillCountFromDb(id, self.db.global)
+			local byChar = self:GetMobKillCountFromDb(id, self.db.char)
+			local total  = self:GetMobKillCountFromDb(id, self.db.global)
+
+			if byChar > 0 or total > 0 or not UnitIsFriend(unit, "player") then
+				tooltip:AddDoubleLine(
+					string.format(
+						L.tooltip_text,
+						COLOR_SILVER,
+						self:GetPlayerName(),
+						COLOR_SILVER
+					),
+					string.format(
+						'|c%s%s / %s|r',
+						COLOR_SILVER,
+						byChar,
+						total
+					)
 				)
-			)
+			end
 		end
 	end
 end
