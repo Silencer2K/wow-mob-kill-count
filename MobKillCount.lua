@@ -2,7 +2,7 @@ local addonName, addon = ...
 
 LibStub('AceAddon-3.0'):NewAddon(addon, addonName, 'AceEvent-3.0')
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = LibStub('AceLocale-3.0'):GetLocale(addonName)
 
 local COLOR_SILVER = 'ffc7c7cf'
 
@@ -40,7 +40,7 @@ function addon:UnitInfoFromGuid(guid)
 
 	local type = tonumber('0x' .. strsub(guid, 3, 3))
 
-	if type == 3 then
+	if type == 3 or type == 5 then
 		local id = tonumber('0x' .. strsub(guid, 4, 8))
 
 		return type, id
@@ -50,8 +50,8 @@ function addon:UnitInfoFromGuid(guid)
 end
 
 function addon:GetPlayerName()
-	local name = GetUnitName("player")
-	local _, class = UnitClass("player")
+	local name = GetUnitName('player')
+	local _, class = UnitClass('player')
 
 	return string.format(
 		'|c%s%s|r',
@@ -72,7 +72,7 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
 )
 	local type, id = self:UnitInfoFromGuid(destGuid)
 
-	if type == 3 then
+	if type == 3 or type == 5 then
 		if logEvent:match('_DAMAGE$') then
 			if sourceGuid == UnitGUID('player') then
 				-- print(event, timeStamp, logEvent, hideCaster,
@@ -120,7 +120,7 @@ function addon:OnGameTooltipSetUnit(tooltip)
 			local byChar = self:GetMobKillCountFromDb(id, self.db.char)
 			local total  = self:GetMobKillCountFromDb(id, self.db.global)
 
-			if byChar > 0 or total > 0 or not UnitIsFriend(unit, "player") then
+			if byChar > 0 or total > 0 or not UnitIsFriend(unit, 'player') then
 				tooltip:AddDoubleLine(
 					string.format(
 						L.tooltip_text,
