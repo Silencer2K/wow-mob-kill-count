@@ -86,9 +86,9 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
 			end
 
 		elseif logEvent == 'UNIT_DIED' or logEvent == 'PARTY_KILL' then
-			-- print(self.mobHitCache[destGuid])
+			if self.mobHitCache[destGuid] and self.mobHitCache[destGuid] ~= 0 then
+				-- print(self.mobHitCache[destGuid])
 
-			if self.mobHitCache[destGuid] > 0 then
 				self.mobHitCache[destGuid] = 0
 
 				-- print(event, timeStamp, logEvent, hideCaster,
