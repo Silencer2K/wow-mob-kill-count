@@ -25,7 +25,7 @@ function addon:OnInitialize()
 		addon:OnGameTooltipSetUnit(self)
 	end)
 
-	self.mobCache = {}
+	self.mobHitCache = {}
 end
 
 function addon:UnitInfoFromGuid(guid)
@@ -80,11 +80,22 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
 				--       destGuid, destName, destFlags, destFlags2, ...
 				-- )
 
-				self.mobCache[destGuid] = 1
+				if self.mobHitCache[destGuid] == nil then
+					self.mobHitCache[destGuid] = 1
+				end
 			end
 
 		elseif logEvent == 'UNIT_DIED' or logEvent == 'PARTY_KILL' then
-			if self.mobCache[destGuid] then
+			-- print(self.mobHitCache[destGuid])
+
+			if self.mobHitCache[destGuid] > 0 then
+				self.mobHitCache[destGuid] = 0
+
+				-- print(event, timeStamp, logEvent, hideCaster,
+				--       sourceGuid, sourceName, sourceFlags, sourceFlags2,
+				--       destGuid, destName, destFlags, destFlags2, ...
+				-- )
+
 				self:IncMobKillCount(id)
 			end
 		end
@@ -92,7 +103,7 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
 end
 
 function addon:OnZoneChanged()
-	self.mobCache = {}
+	self.mobHitCache = {}
 end
 
 function addon:OnGameTooltipCleared(tooltip)
