@@ -129,8 +129,7 @@ function addon:OnGameTooltipSetUnit(tooltip)
 					string.format(
 						L.tooltip_text,
 						COLOR_SILVER,
-						self:GetPlayerName(),
-						COLOR_SILVER
+						self:GetPlayerName()
 					),
 					string.format(
 						'|c%s%s / %s|r',
