@@ -26,6 +26,8 @@ function addon:OnInitialize()
 	end)
 
 	self.mobHitCache = {}
+
+	self:InitializeBodyCount()
 end
 
 function addon:UnitInfoFromGuid(guid)
@@ -146,6 +148,8 @@ function addon:IncMobKillCount(id)
 	self:IncMobKillCountInDb(id, self.db.char)
 	self:IncMobKillCountInDb(id, self.db.global)
 
-	self:IncMobKillCountInDb(0, self.db.char)
+	local total = self:IncMobKillCountInDb(0, self.db.char)
 	self:IncMobKillCountInDb(0, self.db.global)
+
+	self.bodyCount:Update(total)
 end

@@ -19,3 +19,5 @@ locales\zhTW.lua
 
 MobKillCount.xml
 MobKillCount.lua
+
+BodyCount.lua
