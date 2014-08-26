@@ -65,11 +65,6 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
 	if type == 3 or type == 5 then
 		if logEvent:match('_DAMAGE$') then
 			if sourceGuid == UnitGUID('player') then
-				-- print(event, timeStamp, logEvent, hideCaster,
-				--       sourceGuid, sourceName, sourceFlags, sourceFlags2,
-				--       destGuid, destName, destFlags, destFlags2, ...
-				-- )
-
 				if self.mobHitCache[destGuid] == nil then
 					self.mobHitCache[destGuid] = 1
 				end
@@ -77,15 +72,7 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
 
 		elseif logEvent == 'UNIT_DIED' or logEvent == 'PARTY_KILL' then
 			if self.mobHitCache[destGuid] and self.mobHitCache[destGuid] ~= 0 then
-				-- print(self.mobHitCache[destGuid])
-
 				self.mobHitCache[destGuid] = 0
-
-				-- print(event, timeStamp, logEvent, hideCaster,
-				--       sourceGuid, sourceName, sourceFlags, sourceFlags2,
-				--       destGuid, destName, destFlags, destFlags2, ...
-				-- )
-
 				self:IncMobKillCount(id)
 			end
 		end
@@ -148,10 +135,7 @@ function addon:IncMobKillCountInDb(id, db)
 end
 
 function addon:GetMobKillCountFromDb(id, db)
-	if db.killCount == nil then
-		db.killCount = {}
-	end
-	if db.killCount[id] == nil then
+	if db.killCount == nil or db.killCount[id] == nil then
 		return 0
 	end
 
