@@ -117,6 +117,10 @@ function addon:OnGameTooltipSetUnit(tooltip)
 		local type, id = self:UnitInfoFromGuid(guid)
 
 		if type == 3 or type == 5 then
+			if UnitIsDead(unit) and self.mobHitCache[guid] and self.mobHitCache[guid] ~= 0 then
+				self:IncMobKillCount(id)
+			end
+
 			local byChar = self:GetMobKillCountFromDb(id, self.db.char)
 			local total  = self:GetMobKillCountFromDb(id, self.db.global)
 
