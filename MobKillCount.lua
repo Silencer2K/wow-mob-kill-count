@@ -29,20 +29,10 @@ function addon:OnInitialize()
 end
 
 function addon:UnitInfoFromGuid(guid)
-	if strsub(guid, 1, 2) == '0x' then
-		guid = strsub(guid, 3)
-	end
-
-	local length = strlen(guid)
-	if length < 16 then
-		guid = strsub('0000000000000000', 1, 16 - length) .. guid
-	end
-
-	local type = tonumber('0x' .. strsub(guid, 3, 3))
+	local type = tonumber('0x' .. strsub(guid, 5, 5))
 
 	if type == 3 or type == 5 then
-		local id = tonumber('0x' .. strsub(guid, 4, 8))
-
+		local id = tonumber('0x' .. strsub(guid, 6, 10))
 		return type, id
 	end
 
