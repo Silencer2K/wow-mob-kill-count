@@ -62,20 +62,22 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
                              sourceGuid, sourceName, sourceFlags, sourceFlags2,
                              destGuid, destName, destFlags, destFlags2, ...
 )
-	local type, id = self:UnitInfoFromGuid(destGuid)
+	if destGuid then
+		local type, id = self:UnitInfoFromGuid(destGuid)
 
-	if type == 3 or type == 5 then
-		if logEvent:match('_DAMAGE$') then
-			if sourceGuid == UnitGUID('player') then
-				if self.mobHitCache[destGuid] == nil then
-					self.mobHitCache[destGuid] = 1
+		if type == 3 or type == 5 then
+			if logEvent:match('_DAMAGE$') then
+				if sourceGuid == UnitGUID('player') then
+					if self.mobHitCache[destGuid] == nil then
+						self.mobHitCache[destGuid] = 1
+					end
 				end
-			end
 
-		elseif logEvent == 'UNIT_DIED' or logEvent == 'PARTY_KILL' then
-			if self.mobHitCache[destGuid] and self.mobHitCache[destGuid] ~= 0 then
-				self.mobHitCache[destGuid] = 0
-				self:IncMobKillCount(id)
+			elseif logEvent == 'UNIT_DIED' or logEvent == 'PARTY_KILL' then
+				if self.mobHitCache[destGuid] and self.mobHitCache[destGuid] ~= 0 then
+					self.mobHitCache[destGuid] = 0
+					self:IncMobKillCount(id)
+				end
 			end
 		end
 	end
@@ -93,30 +95,33 @@ function addon:OnGameTooltipSetUnit(tooltip)
 
 	if unit then
 		local guid = UnitGUID(unit)
-		local type, id = self:UnitInfoFromGuid(guid)
 
-		if type == 3 or type == 5 then
-			if UnitIsDead(unit) and self.mobHitCache[guid] and self.mobHitCache[guid] ~= 0 then
-				self:IncMobKillCount(id)
-			end
+		if (guid) then
+			local type, id = self:UnitInfoFromGuid(guid)
 
-			local byChar = self:GetMobKillCountFromDb(id, self.db.char)
-			local total  = self:GetMobKillCountFromDb(id, self.db.global)
+			if type == 3 or type == 5 then
+				if UnitIsDead(unit) and self.mobHitCache[guid] and self.mobHitCache[guid] ~= 0 then
+					self:IncMobKillCount(id, 1)
+				end
 
-			if byChar > 0 or total > 0 or not UnitIsFriend(unit, 'player') then
-				tooltip:AddDoubleLine(
-					string.format(
-						L.tooltip_text,
-						COLOR_SILVER,
-						self:GetPlayerName()
-					),
-					string.format(
-						'|c%s%s / %s|r',
-						COLOR_SILVER,
-						byChar,
-						total
+				local byChar = self:GetMobKillCountFromDb(id, self.db.char)
+				local total  = self:GetMobKillCountFromDb(id, self.db.global)
+
+				if byChar > 0 or total > 0 or not UnitIsFriend(unit, 'player') then
+					tooltip:AddDoubleLine(
+						string.format(
+							L.tooltip_text,
+							COLOR_SILVER,
+							self:GetPlayerName()
+						),
+						string.format(
+							'|c%s%s / %s|r',
+							COLOR_SILVER,
+							byChar,
+							total
+						)
 					)
-				)
+				end
 			end
 		end
 	end
@@ -144,12 +149,12 @@ function addon:GetMobKillCountFromDb(id, db)
 	return db.killCount[id]
 end
 
-function addon:IncMobKillCount(id)
+function addon:IncMobKillCount(id, quiet)
 	self:IncMobKillCountInDb(id, self.db.char)
 	self:IncMobKillCountInDb(id, self.db.global)
 
 	local total = self:IncMobKillCountInDb(0, self.db.char)
 	self:IncMobKillCountInDb(0, self.db.global)
 
-	self.bodyCount:Update(total)
+	self.bodyCount:Update(total, quiet)
 end
