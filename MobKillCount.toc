@@ -1,8 +1,8 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Mob Kill Count
 ## Author: silencer2k@gmail.com
 ## SavedVariables: MobKillCountDB
-## Version: 1.0-release
+## Version: 1.0-6.0.2-release
 
 locales\enUS.lua
 locales\ruRU.lua

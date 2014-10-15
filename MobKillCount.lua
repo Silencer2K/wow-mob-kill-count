@@ -29,10 +29,11 @@ function addon:OnInitialize()
 end
 
 function addon:UnitInfoFromGuid(guid)
-	local type = tonumber('0x' .. strsub(guid, 5, 5))
+	local parts = {strsplit('-', guid)}
+	local type = parts[1]
 
-	if type == 3 or type == 5 then
-		local id = tonumber('0x' .. strsub(guid, 6, 10))
+	if type == 'Creature' or type == 'Vehicle' then
+		local id = tonumber(parts[6])
 		return type, id
 	end
 
@@ -63,7 +64,7 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
 	if destGuid then
 		local type, id = self:UnitInfoFromGuid(destGuid)
 
-		if type == 3 or type == 5 then
+		if type == 'Creature' or type == 'Vehicle' then
 			if logEvent:match('_DAMAGE$') then
 				if sourceGuid == UnitGUID('player') then
 					if self.mobHitCache[destGuid] == nil then
@@ -97,7 +98,7 @@ function addon:OnGameTooltipSetUnit(tooltip)
 		if (guid) then
 			local type, id = self:UnitInfoFromGuid(guid)
 
-			if type == 3 or type == 5 then
+			if type == 'Creature' or type == 'Vehicle' then
 				if UnitIsDead(unit) and self.mobHitCache[guid] and self.mobHitCache[guid] ~= 0 then
 					self:IncMobKillCount(id, 1)
 				end
