@@ -4,6 +4,8 @@
 ## SavedVariables: MobKillCountDB
 ## Version: 1.0-6.0.2-release
 
+MobKillCount.xml
+
 locales\enUS.lua
 locales\ruRU.lua
 
@@ -17,5 +19,4 @@ locales\ptBR.lua
 locales\zhCN.lua
 locales\zhTW.lua
 
-MobKillCount.xml
 MobKillCount.lua
