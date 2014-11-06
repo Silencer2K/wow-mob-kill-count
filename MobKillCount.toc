@@ -2,7 +2,7 @@
 ## Title: Mob Kill Count
 ## Author: silencer2k@gmail.com
 ## SavedVariables: MobKillCountDB
-## Version: 1.0-6.0.2-release
+## Version: 1.1
 
 MobKillCount.xml
 
