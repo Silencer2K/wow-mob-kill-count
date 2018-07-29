@@ -55,6 +55,8 @@ function addon:OnCombatEvent(event, timeStamp, logEvent, hideCaster,
     sourceGuid, sourceName, sourceFlags, sourceFlags2,
     destGuid, destName, destFlags, destFlags2, ...
 )
+    local _, logEvent, _, sourceGuid, _, _, _, destGuid, _, _, _, _, _ = CombatLogGetCurrentEventInfo()
+    
     if destGuid then
         local type, id = self:UnitInfoFromGuid(destGuid)
 
